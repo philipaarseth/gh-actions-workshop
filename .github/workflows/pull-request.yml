@@ -81,6 +81,8 @@ jobs:
         run: npm run test
   post-comment:
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
 
     needs: [build, lint]
 
