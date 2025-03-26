@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      page_url: ${{ steps.deploy.outputs.page_url }}
+      page_url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
       - name: Checkout repository
