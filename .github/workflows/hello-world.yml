@@ -20,3 +20,12 @@ jobs:
       - name: Use the answer
         run: |
           echo "The answer is ${{ steps.whats-the-answer.outputs.answer  }}"
+
+  oslo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Find the current time in Oslo
+        run: |
+          echo "json-response<<EOF" >> $GITHUB_OUTPUT
+          curl "http://worldtimeapi.org/api/timezone/Europe/Oslo" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
