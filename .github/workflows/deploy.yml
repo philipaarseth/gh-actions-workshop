@@ -14,6 +14,9 @@ jobs:
     name: Hello world 🌱
     runs-on: ubuntu-latest
 
+    outputs:
+      page_url: ${{ steps.deploy.outputs.page_url }}
+
     steps:
       - name: Checkout repository
         # To reference external workflows, we use the `uses` keyword.
@@ -38,24 +41,11 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
-  deployment:
-      runs-on: ubuntu-latest
-
-      outputs:
-        deploy-url: ${{ steps.deploy.outputs.deploy-url }}
-
-      steps:
-        - name: Deploy to staging
-          id: deploy
-          run: |
-            echo "deploy-url=https://staging.example.com" >> $GITHUB_OUTPUT
-
-  e2e-test:
+  lighthouse:
     runs-on: ubuntu-latest
-
-    needs: deployment
-
+    needs: deploy
     steps:
-      - name: Run end-to-end tests
-        run: |
-          echo "Running tests against ${{ needs.deployment.outputs.deploy-url }}"
+      - name: Run Lighthouse checks
+        uses: treosh/lighthouse-ci-action@v10
+        with:
+          urls: ${{ needs.deploy.outputs.page_url }}
